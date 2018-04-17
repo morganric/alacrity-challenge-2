@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Alacrity Coding Challenge 2 - Richard Morgan</title>
+
+<!-- included bootstrap css for presentation -->
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+<!-- import jquery for DOM manipulation assistance -->
+	<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="js/users.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+  <div class="col-md-12 row">
+  	<h1>Alacrity Coding Challenge 2 - Richard Morgan</h1>
+	<hr/>
+
+	<div class="col-md-8">
+
+		<h3> Users </h3>
+		<h4>
+			<ul>
+				
+			</ul>
+		</h4>
+
+	</div>
+
+	<div class="col-md-4">
+
+		<form>
+			Name:
+			<br/>
+			<input type="text" name="name" id="name_input" />
+			<br/>
+			Age:	
+			<br/>	
+			<input type="number" name="age" id="age_input" />
+			<br/>
+			<br/>
+			<button class="btn btn-primary">Add User</button>
+		</form>
+		
+		<br/>
+
+		<h3>Data</h3>
+		<h4>Average Age -> <span id="average"></span></h4>
+		<h4>Eldest User -> <span id="eldest"></span></h4>
+		<h4>Youngest User -> <span id="youngest"></span></h4>
+
+	</div>
+
+  </div>
+</div>
+
+<script type="text/javascript">
+	
+// Users JS HERE
+
+console.log(users);
+
+//store users in local storage (http session)
+localStorage.setItem("users", JSON.stringify(users));
+
+for(let i = 0; i < users.length; i++ ) {
+
+	$("ul").append("<li> <a href='/users/?user_id=" + i + "' >" + users[i]["name"] + ", Age: " + users[i]["age"] + "</a></li>");
+
+};
+
+
+// The average age 
+
+var average = function(users_array) {
+
+	let total_age = 0;
+
+	for(let i = 0; i < users_array.length; i++ ) {
+		total_age = total_age + users_array[i].age;
+	};
+
+	let average_age = total_age / users_array.length;
+
+	// update UI
+	$("#average").html(average_age);
+
+
+};
+
+
+// The oldest person in the collection 
+
+var eldest = function(users_array) {
+
+
+	let elder_index = 0;
+
+	for(let i = 0; i < users_array.length; i++ ) {
+
+		if (users_array[i].age > users_array[elder_index].age) {
+			elder_index = i;
+		}
+	};
+
+	let eldest = users_array[elder_index];
+
+	// update UI
+	$("#eldest").html(eldest.name + " : " + eldest.age);
+
+};
+
+
+// The youngest person in the collection 
+
+var youngest = function(users_array) {
+
+	let younger_index = 0;
+
+	for(let i = 0; i < users_array.length; i++ ) {
+
+		if (users_array[i].age < users_array[younger_index].age) {
+			younger_index = i;
+		}
+	};
+
+	let youngest = users_array[younger_index];
+
+	// update UI
+	$("#youngest").html(youngest.name + " : " + youngest.age);
+
+};
+
+
+// Run data analysis functions here
+
+average(users);
+eldest(users);
+youngest(users);
+
+
+// New User Form
+
+$("button").on("click", function(event) {
+
+	event.preventDefault();
+
+	let new_user = new User;
+
+	name = $("#name_input").val();
+	age = $("#age_input").val();
+
+	new_user.name = name;
+	new_user.age = Number(age);
+
+	//add new user to users array
+	users.push(new_user);
+
+	// recalculate and present new data
+	average(users);
+	eldest(users);
+	youngest(users);
+
+
+});
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Alacrity Coding Challenge 2 - User Page</title>
+
+
+<!-- included bootstrap css for presentation -->
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+<!-- import jquery for DOM manipulation assistance -->
+	<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+<!-- <script type="text/javascript" src="../js/users.js"></script>
+ -->
+</head>
+<body>
+
+<div class="container">
+<h1><a href="/" >Alacrity Coding Challenge 2 - Richard Morgan</a></h1>
+<hr/>
+<h2>User: </h2>
+
+</div>
+
+<script type="text/javascript">
+	
+// User JS HERE
+
+var url = new URL(window.location.href);
+var user_id = url.searchParams.get("user_id");
+
+let users = JSON.parse(localStorage.getItem("users"));
+
+let user = users[user_id];
+
+$("h2").append(user.name + ", Age:" + user.age);
+
+
+</script>
+</body>
+</html>
