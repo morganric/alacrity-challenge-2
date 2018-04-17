@@ -67,7 +67,10 @@
 console.log(users);
 
 //store users in local storage (http session)
-localStorage.setItem("users", JSON.stringify(users));
+
+if(localStorage.getItem("users") === null) {
+	localStorage.setItem("users", JSON.stringify(users));
+};
 
 for(let i = 0; i < users.length; i++ ) {
 
@@ -140,12 +143,17 @@ var youngest = function(users_array) {
 
 // Run data analysis functions here
 
-average(users);
-eldest(users);
-youngest(users);
+var present_data = function() {
 
+	average(users);
+	eldest(users);
+	youngest(users);
 
-// New User Form
+};
+
+present_data();
+
+// New User Form Handling
 
 $("button").on("click", function(event) {
 
@@ -159,13 +167,17 @@ $("button").on("click", function(event) {
 	new_user.name = name;
 	new_user.age = Number(age);
 
-	//add new user to users array
+	//add new user to current users array
 	users.push(new_user);
 
-	// recalculate and present new data
-	average(users);
-	eldest(users);
-	youngest(users);
+	// store new users array
+	localStorage.setItem("users", JSON.stringify(users));
+
+	// Add new user to user list
+	$("ul").append("<li> <a href='/users/?user_id=" + users.length + "' >" + new_user.name + ", Age: " + new_user.age + "</a></li>");
+
+	//recalculate and present new data
+	present_data();
 
 
 });
