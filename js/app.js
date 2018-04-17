@@ -88,15 +88,15 @@ var youngest = function(users_array) {
 
 // Run data analysis functions here
 
-var present_data = function() {
+var present_data = function(array) {
 
-	average(users);
-	eldest(users);
-	youngest(users);
+	average(array);
+	eldest(array);
+	youngest(array);
 
 };
 
-present_data();
+present_data(current_users);
 
 // New User Form Handling
 
@@ -122,7 +122,7 @@ $("button").on("click", function(event) {
 	$("ul").append("<li> <a href='/users/?user_id=" + users.length + "' >" + new_user.name + ", Age: " + new_user.age + "</a></li>");
 
 	//recalculate and present new data
-	present_data();
+	present_data(users);
 
 
 });
